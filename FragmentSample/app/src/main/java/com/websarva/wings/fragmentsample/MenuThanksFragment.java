@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MenuThanksFragment extends Fragment {
@@ -28,6 +30,36 @@ public class MenuThanksFragment extends Fragment {
         //注文した定食名と金額変数を用意。引継ぎデータがうまく取得できなかったときのために""で初期化
         String menuName = "";
         String menuPrice = "";
-        //
+        //引継ぎデータ（Bundle）オブジェクトが存在すれば
+        if(extras != null) {
+            //定食名と金額を取得。
+            menuName = extras.getString("menuName");
+            menuPrice = extras.getString("menuPrice");
+        }
+        //定食名と金額を表示させるTextViewを取得
+        TextView tvMenuName = view.findViewById(R.id.tvMenuName);
+        TextView tvMenuPrice = view.findViewById(R.id.tvMenuPrice);
+        //TextViewに定食名と金額を表示
+        tvMenuName.setText(menuName);
+        tvMenuPrice.setText(menuPrice);
+
+        //戻るボタンを取得
+        Button btBackButton = view.findViewById(R.id.btBackButton);
+        //戻るボタンにリスナを登録
+        btBackButton.setOnClickListener(new ButtonClickListener());
+
+        //インフレートされた画面を戻り値として返す
+        return view;
+    }
+
+    //ボタンが押されたときの処理が記述されたメンバクラス
+    private class ButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            //このフラグメントが所属するアクテビティオブジェクトを取得
+            Activity parentActivity = getActivity();
+            //自分が所属するアクティビティを終了
+            parentActivity.finish();
+        }
     }
 }
